@@ -1,13 +1,17 @@
 import Layout from './layout/Layout'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { BreadcrumbItemType, ItemType } from 'antd/es/breadcrumb/Breadcrumb'
-import { BreadcrumbsContext } from './utilities/BreadcrumbsContext'
+// import { BreadcrumbsContext } from './utilities/BreadcrumbsContext'
+import { MyContext, MyContextType, ScreensizeType } from './utilities/MyContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
 import enUSIntl from 'antd/locale/en_US';
+import RefResizeObserver, { OnResize, SizeInfo } from 'rc-resize-observer'
 
 const App = () => {
+	const navigate = useNavigate();
+	
 	// ===== Handle breadcrumbs by getting pathname from useLocation =====
 	const location = useLocation();
 	const [crumbs, setCrumbs] = useState<BreadcrumbItemType[]>([]);
@@ -26,6 +30,9 @@ const App = () => {
 			
 		}, [{ path: '/', title: "Home" }])
 		setCrumbs(tmpcrumbs);
+		
+		// if (location.pathname === '/')
+		// 	navigate('/dashboard');
 	}, [location]);
 	
 	const breadcrumbsItemRender = (item: ItemType, params: any, items: ItemType[], paths: string[]) => {
@@ -34,22 +41,48 @@ const App = () => {
 	}
 	// ===================================================================
 	
+	// Handle screensize
+	const [screensize, setScreensize] = useState<ScreensizeType>();
+	const handleResize = (size: SizeInfo) => {
+		if (size.width >= 1600) setScreensize('xxl');
+		else if (size.width >= 1200) setScreensize('xl');
+		else if (size.width >= 992) setScreensize('lg');
+		else if (size.width >= 768) setScreensize('md');
+		else if (size.width >= 576) setScreensize('sm');
+		else setScreensize('xs');
+	}
+	// =====================
+	
 	const queryClient = new QueryClient();
 	
+	const MyContextValue: MyContextType = {
+		breadcrumbs: {
+			items: crumbs,
+			itemRender: breadcrumbsItemRender
+		},
+		location: location,
+		ssize: screensize,
+		ssizeArray: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+	}
+	
 	return (
-		<QueryClientProvider
-			client={queryClient}
+		<RefResizeObserver
+			onResize={handleResize}
 		>
-			<BreadcrumbsContext.Provider 
-				value={{ items: crumbs, itemRender: breadcrumbsItemRender}}
+			<QueryClientProvider
+				client={queryClient}
 			>
-				<ConfigProvider
-					locale={ enUSIntl }
+				<MyContext.Provider 
+					value={MyContextValue}
 				>
-					<Layout />
-				</ConfigProvider>
-			</BreadcrumbsContext.Provider>
-		</QueryClientProvider>
+					<ConfigProvider
+						locale={ enUSIntl }
+					>
+						<Layout />
+					</ConfigProvider>
+				</MyContext.Provider>
+			</QueryClientProvider>
+		</RefResizeObserver>
 	)
 }
 

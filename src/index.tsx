@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { default as Pages } from './Pages/index'
 
 const root = ReactDOM.createRoot(
@@ -12,11 +12,11 @@ const root = ReactDOM.createRoot(
 
 const router = createBrowserRouter([
 	{
-		path: '/',
 		element: <App />,
 		children: [
-			{ path: '/dashboard', element: <Pages.Dashboard.Dashbaord /> },
+			{ path: '/', element: <Navigate to="/dashboard" replace /> },
 			
+			{ path: '/dashboard', element: <Pages.Dashboard.Dashbaord /> },		
 			{ path: '/products', element: <Pages.Products.List /> },
 			{ path: '/products/:id', element: <Pages.Products.Details /> },
 			{ path: '/products/:id/edit', element: <Pages.Products.Edit /> },

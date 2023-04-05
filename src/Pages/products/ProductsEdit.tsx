@@ -4,7 +4,7 @@ import { message } from 'antd';
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom';
 import PostsApis from '../../apis/Posts';
-import { BreadcrumbsContext } from '../../utilities/BreadcrumbsContext';
+import { MyContext } from '../../utilities/MyContext';
 import ProductsFormRadio from './components/ProductsFormRadio';
 import ProductsFormTreeSelect from './components/ProductsFormTreeSelect';
 
@@ -17,7 +17,7 @@ interface ProductsFormType {
 };
 
 const ProductsEdit = () => {
-	const breadcrumbs = useContext(BreadcrumbsContext);
+	const context = useContext(MyContext);
 	const { id } = useParams();
 	
 	const handleValuesChange = (values: any) => {
@@ -57,7 +57,7 @@ const ProductsEdit = () => {
 	
 	return (
 		<PageContainer
-			header={{ breadcrumb: breadcrumbs }}
+			header={{ breadcrumb: context.breadcrumbs }}
 		>
 			{submitDom}
 			<ProCard	

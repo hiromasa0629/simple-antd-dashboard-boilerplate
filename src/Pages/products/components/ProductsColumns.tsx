@@ -1,7 +1,7 @@
 import { ProColumns } from "@ant-design/pro-components"
 import { Card, Input } from "antd";
 import { Link } from "react-router-dom";
-import { PostsType } from "../../apis/ApiTyping"
+import { PostsType } from "../../../apis/ApiTyping"
 
 const ProductsColumns = (page: number): ProColumns<PostsType>[] => [
 	/* dataindex has to match data key */

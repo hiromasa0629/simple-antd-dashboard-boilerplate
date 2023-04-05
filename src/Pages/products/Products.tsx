@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { PageContainer, ProTable } from '@ant-design/pro-components'
-import { BreadcrumbsContext } from '../../utilities/BreadcrumbsContext'
+import { MyContext } from '../../utilities/MyContext'
 import PostsApis from '../../apis/Posts'
 import { PostsType } from '../../apis/ApiTyping'
 import { TablePaginationConfig } from 'antd'
-import ProductsColumns from './ProductsColumns'
+import ProductsColumns from './components/ProductsColumns'
 
 interface TableParamsType {
 	pageSize?: number | undefined,
@@ -15,7 +15,7 @@ interface TableParamsType {
 
 const Products = () => {
 
-	const breadcrumbs = useContext(BreadcrumbsContext);
+	const context = useContext(MyContext);
 	const [data, setData] = useState<PostsType[]>([]);
 	const [defaultData, setDefaultData] = useState<PostsType[]>([]);
 	const [page, setPage] = useState<number>(1);
@@ -50,7 +50,7 @@ const Products = () => {
 	
 	return (
 		<PageContainer
-			header={{ breadcrumb: breadcrumbs }}
+			header={{ breadcrumb: context.breadcrumbs }}
 		>
 			<ProTable<PostsType>
 				/* Request data */

@@ -1,5 +1,5 @@
 import { PageContainer, ProCard, ProCardProps } from '@ant-design/pro-components'
-import { BreadcrumbsContext } from '../../utilities/BreadcrumbsContext'
+import { MyContext } from '../../utilities/MyContext';
 import React, { useContext } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +9,7 @@ import { message } from 'antd';
 
 const ProductsDetails = () => {
 	
-	const breadcrumbs = useContext(BreadcrumbsContext);
+	const context = useContext(MyContext);
 	const [deleteApi, contextHolder] = message.useMessage();
 	const { id } = useParams();
 	
@@ -46,7 +46,7 @@ const ProductsDetails = () => {
 	
 	return (
 		<PageContainer
-			header={{ breadcrumb: breadcrumbs }}
+			header={{ breadcrumb: context.breadcrumbs }}
 		>
 			{ contextHolder }
 			<ProCard

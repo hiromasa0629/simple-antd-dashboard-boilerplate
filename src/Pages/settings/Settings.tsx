@@ -1,14 +1,14 @@
 import { PageContainer } from '@ant-design/pro-components'
 import React, { useContext } from 'react'
-import { BreadcrumbsContext } from '../../utilities/BreadcrumbsContext'
+import { MyContext } from '../../utilities/MyContext';
 
 const Settings = () => {
 	
-	const breadcrumbs = useContext(BreadcrumbsContext);
+	const context = useContext(MyContext);
 	
 	return (
 		<PageContainer
-			header={{ breadcrumb: breadcrumbs }}
+			header={{ breadcrumb: context.breadcrumbs }}
 		>
 			<div>Settings</div>
 		</PageContainer>
