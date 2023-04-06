@@ -1,6 +1,6 @@
 import { NewBreadcrumbProps } from "antd/es/breadcrumb/Breadcrumb";
 import { BreadcrumbsContextType } from "./BreadcrumbsContext";
-import { Location } from "react-router-dom";
+import { Location, NavigateFunction } from "react-router-dom";
 import { createContext } from "react";
 
 /** 
@@ -18,6 +18,7 @@ export interface MyContextType {
 	location?: Location,
 	ssize?: ScreensizeType,
 	ssizeArray: string[],
+	navigate?: NavigateFunction
 };
 
 export const MyContext = createContext<MyContextType>({
